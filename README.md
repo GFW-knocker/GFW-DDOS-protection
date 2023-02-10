@@ -24,3 +24,7 @@ iptables rules to protect against GFW-prober DDOS and port scanning
     ./ddos_iptable.sh
 - rules applied immidiately but you need to run this after every restart
 
+
+# iptables user manual:
+- https://web.mit.edu/rhel-doc/4/RH-DOCS/rhel-rg-en-4/s1-iptables-options.html
+- https://javapipe.com/blog/iptables-ddos-protection/
