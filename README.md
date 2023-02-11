@@ -27,29 +27,41 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 
 # iptables user manual:
 - https://web.mit.edu/rhel-doc/4/RH-DOCS/rhel-rg-en-4/s1-iptables-options.html
+- https://bookofzeus.com/harden-ubuntu/hardening/protect-ddos-attacks/
 - https://javapipe.com/blog/iptables-ddos-protection/
 
 
 # pure ufw rate-limit (if you dont like iptables)
-Rate limit traffic to your webserver with UFW.
-This is the UFW rules we add to our \etc\ufw\before.rules in UFW to prevent DDoS attacks on our webservers.
-Adjustments can be made depending on ligitimate traffic to the webserver.
-Works with Debian 9 / 10 Servers and Ubuntu 18.04 & 20.04 Server.
 
+0. open file /etc/ufw/before.rules<br>
+<code>sudo vim /etc/ufw/before.rules</code><br><br>
+1. Add those lines after *filter near the beginning of the file:<br>
+<code>:ufw-http - [0:0]</code><br>
+<code>:ufw-http-logdrop - [0:0]</code><br>
 
-Add these lines to /etc/ufw/before.rules after<br>
-<code># End required lines</code>
-1. Add these lines</br>
-<code># Start CUSTOM UFW added by clusterednetworks 2020-10-20</code><br>
-<code># Limit to 20 concurrent connections on port 80/443 per IP</code><br>
-<code>-A ufw-before-input -p tcp --syn --dport 80 -m connlimit --connlimit-above 20 -j DROP</code><br>
-<code>-A ufw-before-input -p tcp --syn --dport 443 -m connlimit --connlimit-above 20 -j DROP</code><br>
-<code># Limit to 20 connections on port 80/443 per 2 seconds per IP</code><br>
-<code>-A ufw-before-input -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --set</code><br>
-<code>-A ufw-before-input -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --update --seconds 2 --hitcount 20 -j DROP</code><br>
-<code>-A ufw-before-input -p tcp --dport 443 -i eth0 -m state --state NEW -m recent --set</code><br>
-<code>-A ufw-before-input -p tcp --dport 443 -i eth0 -m state --state NEW -m recent --update --seconds 2 --hitcount 20 -j DROP</code><br>
-<code># End Custom UFW by clusterednetworks</code><br>
+2. Add those lines near the end of the file, before the COMMIT:<br>  
+<code>### start ###</code><br>
+<code># Entry point - add your xray port here -</code><br>
+<code>-A ufw-before-input -p tcp --dport 80 -j ufw-http</code><br>
+<code>-A ufw-before-input -p tcp --dport 443 -j ufw-http</code><br>
+<code># Limit 100 established connections per IP</code><br>
+<code>-A ufw-http -p tcp --syn -m connlimit --connlimit-above 100 --connlimit-mask 24 -j ufw-http-logdrop</code><br>
+<code># Limit 20 new connections per IP per sec</code><br>
+<code>-A ufw-http -m state --state NEW -m recent --name conn_per_ip --set</code><br>
+<code>-A ufw-http -m state --state NEW -m recent --name conn_per_ip --update --seconds 1 --hitcount 20 -j ufw-http-logdrop</code><br>
+<code># Limit 2000 packets per IP per sec</code><br>
+<code>-A ufw-http -m recent --name pack_per_ip --set</code><br>
+<code>-A ufw-http -m recent --name pack_per_ip --update --seconds 1 --hitcount 2000 -j ufw-http-logdrop</code><br>
+<code># Finally accept</code><br>
+<code>-A ufw-http -j ACCEPT</code><br>
+<code># Log</code><br>
+<code>-A ufw-http-logdrop -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW HTTP DROP] "</code><br>
+<code>-A ufw-http-logdrop -j DROP</code><br>
+<code>### end ###</code><br>
+<code># drop ICMP ping</code><br>
+<code>-t mangle -A PREROUTING -p icmp -j DROP</code><br>
 
-2. Reload the filewall rules<br>
-<code>sudo ufw reload</code>
+3. reload ufw:<br>
+<code>sudo ufw reload</code><br>
+
+    
