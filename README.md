@@ -35,7 +35,8 @@ Rate limit traffic to your webserver with UFW.
 This is the UFW rules we add to our \etc\ufw\before.rules in UFW to prevent DDoS attacks on our webservers.
 Adjustments can be made depending on ligitimate traffic to the webserver.
 Works with Debian 9 / 10 Servers and Ubuntu 18.04 & 20.04 Server.
-# Usage:
+
+
 Add these lines to /etc/ufw/before.rules after<br>
 <code># End required lines</code>
 1. Add these lines</br>
