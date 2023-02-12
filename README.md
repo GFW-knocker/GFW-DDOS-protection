@@ -84,4 +84,11 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 <code>iptables -L INPUT -v</code><br>
 <code>iptables -S</code><br>
 
+# usefull path
+<code>/etc/ufw/</code><br>
+<code>/var/log/ufw.log</code><br>
+<code>/var/log/nginx/access.log</code><br>
+<code>/etc/nginx/sites-available/</code><br>
+<code>/var/www/html/</code><br>
+
 
