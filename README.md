@@ -81,4 +81,7 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 <code>ipset destroy</code><br>
 <code>ufw allow 80/tcp</code><br>
 <code>ufw delete allow 80/tcp</code><br>
+<code>iptables -L INPUT -v</code><br>
+<code>iptables -S</code><br>
+
 
