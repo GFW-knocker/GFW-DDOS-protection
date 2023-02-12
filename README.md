@@ -72,3 +72,8 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 - https://web.mit.edu/rhel-doc/4/RH-DOCS/rhel-rg-en-4/s1-iptables-options.html
 - https://bookofzeus.com/harden-ubuntu/hardening/protect-ddos-attacks/
 - https://javapipe.com/blog/iptables-ddos-protection/
+
+
+# usefull commands
+ipset list
+ipset list port_scanners
