@@ -26,7 +26,7 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 
 2. Add those lines near the end of the file, just before the COMMIT:<br>  
 <code>### start ###</code><br>
-<code># Entry point - add your xray port here instead of 80 or 443</code><br>
+<code># Entry point - <b>add your xray port here instead of 80 or 443</b></code><br>
 <code>-A ufw-before-input -p tcp --dport 80 -j ufw-http</code><br>
 <code>-A ufw-before-input -p tcp --dport 443 -j ufw-http</code><br><br>
 <code># Limit 100 established connections per IP</code><br>
