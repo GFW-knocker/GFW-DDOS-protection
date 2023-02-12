@@ -90,5 +90,6 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 <code>/var/log/nginx/access.log</code><br>
 <code>/etc/nginx/sites-available/</code><br>
 <code>/var/www/html/</code><br>
-
+<code>/etc/x-ui/x-ui.db</code><br>
+<code>/usr/local/x-ui/access.log</code><br>
 
