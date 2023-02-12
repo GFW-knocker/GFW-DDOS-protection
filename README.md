@@ -43,23 +43,23 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 <code>### start ###</code><br>
 <code># Entry point - add your xray port here -</code><br>
 <code>-A ufw-before-input -p tcp --dport 80 -j ufw-http</code><br>
-<code>-A ufw-before-input -p tcp --dport 443 -j ufw-http</code><br>
+<code>-A ufw-before-input -p tcp --dport 443 -j ufw-http</code><br><br>
 <code># Limit 100 established connections per IP</code><br>
-<code>-A ufw-http -p tcp --syn -m connlimit --connlimit-above 100 --connlimit-mask 24 -j ufw-http-logdrop</code><br>
+<code>-A ufw-http -p tcp --syn -m connlimit --connlimit-above 100 --connlimit-mask 24 -j ufw-http-logdrop</code><br><br>
 <code># Limit 20 new connections per IP per sec</code><br>
 <code>-A ufw-http -m state --state NEW -m recent --name conn_per_ip --set</code><br>
-<code>-A ufw-http -m state --state NEW -m recent --name conn_per_ip --update --seconds 1 --hitcount 20 -j ufw-http-logdrop</code><br>
+<code>-A ufw-http -m state --state NEW -m recent --name conn_per_ip --update --seconds 1 --hitcount 20 -j ufw-http-logdrop</code><br><br>
 <code># Limit 2000 packets per IP per sec</code><br>
 <code>-A ufw-http -m recent --name pack_per_ip --set</code><br>
-<code>-A ufw-http -m recent --name pack_per_ip --update --seconds 1 --hitcount 2000 -j ufw-http-logdrop</code><br>
+<code>-A ufw-http -m recent --name pack_per_ip --update --seconds 1 --hitcount 2000 -j ufw-http-logdrop</code><br><br>
 <code># Finally accept</code><br>
-<code>-A ufw-http -j ACCEPT</code><br>
+<code>-A ufw-http -j ACCEPT</code><br><br>
 <code># Log</code><br>
 <code>-A ufw-http-logdrop -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW HTTP DROP] "</code><br>
 <code>-A ufw-http-logdrop -j DROP</code><br>
-<code>### end ###</code><br>
+<code>### end ###</code><br><br>
 <code># drop ICMP ping</code><br>
-<code>-t mangle -A PREROUTING -p icmp -j DROP</code><br>
+<code>-t mangle -A PREROUTING -p icmp -j DROP</code><br><br>
 
 3. reload ufw:<br>
 <code>sudo ufw reload</code><br>
