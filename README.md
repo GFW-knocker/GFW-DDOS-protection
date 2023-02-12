@@ -16,21 +16,6 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 - port scan protection (IP blocked for 30min if scan +5 port)
 
 
-# how to run script:
-- set permission:
-
-    chmod +x srcipt.sh
-- run with root user:
-
-    ./script.sh
-- rules applied immidiately but you need to run this after every restart
-
-
-# iptables user manual:
-- https://web.mit.edu/rhel-doc/4/RH-DOCS/rhel-rg-en-4/s1-iptables-options.html
-- https://bookofzeus.com/harden-ubuntu/hardening/protect-ddos-attacks/
-- https://javapipe.com/blog/iptables-ddos-protection/
-
 
 # pure ufw rate-limit (if you dont like iptables)
 
@@ -64,3 +49,17 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 <code>sudo ufw reload</code><br>
 
     
+# how to run script:
+- set permission:
+
+    chmod +x srcipt.sh
+- run with root user:
+
+    ./script.sh
+- rules applied immidiately but you need to run this after every restart
+
+
+# iptables user manual:
+- https://web.mit.edu/rhel-doc/4/RH-DOCS/rhel-rg-en-4/s1-iptables-options.html
+- https://bookofzeus.com/harden-ubuntu/hardening/protect-ddos-attacks/
+- https://javapipe.com/blog/iptables-ddos-protection/
