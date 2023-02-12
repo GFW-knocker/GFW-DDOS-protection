@@ -2,7 +2,7 @@ apt-get install ipset
 
 ### https://unix.stackexchange.com/questions/345114/how-to-protect-against-port-scanners ###
 
-ipset create port_scanners hash:ip family inet hashsize 32768 maxelem 65536 timeout 600
+ipset create port_scanners hash:ip family inet hashsize 32768 maxelem 65536 timeout 1800
 ipset create scanned_ports hash:ip,port family inet hashsize 32768 maxelem 65536 timeout 60
 
 iptables -A INPUT -m state --state INVALID -j DROP
