@@ -35,9 +35,6 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 <code># Limit 20 new connections per IP per sec</code><br>
 <code>-A ufw-http -m state --state NEW -m recent --name conn_per_ip --set</code><br>
 <code>-A ufw-http -m state --state NEW -m recent --name conn_per_ip --update --seconds 1 --hitcount 20 -j ufw-http-logdrop</code><br><br>
-<code># Limit 2000 packets per IP per sec (~2MB/s speed)</code><br>
-<code>-A ufw-http -m recent --name pack_per_ip --set</code><br>
-<code>-A ufw-http -m recent --name pack_per_ip --update --seconds 1 --hitcount 2000 -j ufw-http-logdrop</code><br><br>
 <code># Finally accept</code><br>
 <code>-A ufw-http -j ACCEPT</code><br><br>
 <code># Log</code><br>
