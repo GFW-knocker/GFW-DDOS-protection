@@ -9,19 +9,20 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 
 # how this protection work:
 - it is set of iptables rules (firewall)
-- block all ICMP/ping (#6)
-- limit rate of tcp request to 60/sec per IP (#10)
-- limit total established connection to 111 per IP (#8)
-- protect against port scanning (#12)
+- block all ICMP/ping
+- limit rate of tcp request to 20/sec per IP
+- limit total established connection to 100 per IP
+- limit total packet to 2000/sec per IP (~2MB/s download speed)
+- port scan protection (IP blocked for 30min if scan +5 port)
 
 
-# how to run:
+# how to run script:
 - set permission:
 
-    chmod +x ddos_iptable.sh
+    chmod +x srcipt.sh
 - run with root user:
 
-    ./ddos_iptable.sh
+    ./script.sh
 - rules applied immidiately but you need to run this after every restart
 
 
@@ -41,7 +42,7 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 
 2. Add those lines near the end of the file, before the COMMIT:<br>  
 <code>### start ###</code><br>
-<code># Entry point - add your xray port here -</code><br>
+<code># Entry point - add your xray port here instead of 80 or 443</code><br>
 <code>-A ufw-before-input -p tcp --dport 80 -j ufw-http</code><br>
 <code>-A ufw-before-input -p tcp --dport 443 -j ufw-http</code><br><br>
 <code># Limit 100 established connections per IP</code><br>
@@ -58,8 +59,6 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 <code>-A ufw-http-logdrop -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW HTTP DROP] "</code><br>
 <code>-A ufw-http-logdrop -j DROP</code><br>
 <code>### end ###</code><br><br>
-<code># drop ICMP ping</code><br>
-<code>-t mangle -A PREROUTING -p icmp -j DROP</code><br><br>
 
 3. reload ufw:<br>
 <code>sudo ufw reload</code><br>
