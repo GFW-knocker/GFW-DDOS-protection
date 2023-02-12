@@ -75,5 +75,10 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 
 
 # usefull commands
-ipset list
-ipset list port_scanners
+<code>ipset list</code><br>
+<code>ipset list port_scanners</code><br>
+<code>ipset flush</code><br>
+<code>ipset destroy</code><br>
+<code>ufw allow 80/tcp</code><br>
+<code>ufw delete allow 80/tcp</code><br>
+
