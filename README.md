@@ -12,8 +12,7 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 - block all ICMP/ping
 - limit rate of tcp request to 20/sec per IP
 - limit total established connection to 100 per IP
-- limit total packet to 2000/sec per IP (~2MB/s download speed)
-- port scan protection (IP blocked for 30min if scan +5 port)
+- port scan protection script (IP blocked for 30min if scan +5 port)
 
 
 
@@ -25,7 +24,7 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 <code>:ufw-http - [0:0]</code><br>
 <code>:ufw-http-logdrop - [0:0]</code><br>
 
-2. Add those lines near the end of the file, before the COMMIT:<br>  
+2. Add those lines near the end of the file, just before the COMMIT:<br>  
 <code>### start ###</code><br>
 <code># Entry point - add your xray port here instead of 80 or 443</code><br>
 <code>-A ufw-before-input -p tcp --dport 80 -j ufw-http</code><br>
@@ -42,7 +41,20 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 <code>-A ufw-http-logdrop -j DROP</code><br>
 <code>### end ###</code><br><br>
 
-3. reload ufw:<br>
+3. replace ICMP ACCEPT with DROP<br>
+<code># ok icmp codes for INPUT</code><br>
+<code>-A ufw-before-input -p icmp --icmp-type destination-unreachable -j DROP</code><br>
+<code>-A ufw-before-input -p icmp --icmp-type time-exceeded -j DROP</code><br>
+<code>-A ufw-before-input -p icmp --icmp-type parameter-problem -j DROP</code><br>
+<code>-A ufw-before-input -p icmp --icmp-type echo-request -j DROP</code><br>
+<code># ok icmp code for FORWARD</code><br>
+<code>-A ufw-before-forward -p icmp --icmp-type destination-unreachable -j DROP</code><br>
+<code>-A ufw-before-forward -p icmp --icmp-type time-exceeded -j DROP</code><br>
+<code>-A ufw-before-forward -p icmp --icmp-type parameter-problem -j DROP</code><br>
+<code>-A ufw-before-forward -p icmp --icmp-type echo-request -j DROP</code><br><br>
+
+
+4. reload ufw:<br>
 <code>sudo ufw reload</code><br>
 
     
