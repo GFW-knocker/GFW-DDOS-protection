@@ -24,7 +24,7 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 <code>:ufw-http - [0:0]</code><br>
 <code>:ufw-http-logdrop - [0:0]</code><br>
 
-2. Add those lines near the end of the file, just before the COMMIT:<br>  
+2. first change listen port below then Add those lines near the end of the file, just before the COMMIT:<br>  
 <code>### start ###</code><br>
 <code># Entry point - <b>add your listen port here instead of 80 or 443</b></code><br>
 <code>-A ufw-before-input -p tcp --dport 80 -j ufw-http</code><br>
