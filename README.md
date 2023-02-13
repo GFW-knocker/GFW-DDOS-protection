@@ -16,7 +16,7 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 
 
 
-# pure ufw rate-limit (if you dont like iptables)
+# ufw rate-limit (limit 20 syn & 100 established TCP per IP)
 
 0. open file /etc/ufw/before.rules<br>
 <code>sudo vim /etc/ufw/before.rules</code><br><br>
@@ -58,14 +58,12 @@ iptables rules to protect against GFW-prober DDOS and port scanning
 <code>sudo ufw reload</code><br>
 
     
-# how to run script:
-- set permission:
-
-    chmod +x srcipt.sh
-- run with root user:
-
-    ./script.sh
-- rules applied immidiately but you need to run this after every restart
+# PortScan Protection (scan 5 port within 1 min -> block 30 min):
+- set permission:<br>
+    <code>chmod +x iptables_portscan_protection.sh</code><br>
+- run with root user:<br>
+    <code>./iptables_portscan_protection.sh</code><br>
+- rules applied immidiately but you need to run this after every restart<br>
 
 
 # iptables user manual:
